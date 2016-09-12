@@ -4,8 +4,7 @@ function cc2c([ConsoleColor]$cc) { return [Drawing.Color]::FromName($cc.ToString
 
 function color([Drawing.Color]$c) {
   $t = 0.2
-  if ($c.GetBrightness() -lt $t) {return "Black"}
-  if ($c.GetSaturation() -lt $t) {return "Black"}
+  if (($c.GetBrightness() -lt $t) -Or ($c.GetSaturation() -lt $t)) {return "Black"}
   $m = [Enum]::GetValues([ConsoleColor]) |
     Where-Object {(cc2c($_)).GetSaturation() -gt $t} |
     Sort-Object {([Math]::Abs(((cc2c($_)).GetHue()-$c.GetHue())))}
